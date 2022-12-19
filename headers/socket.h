@@ -1,10 +1,15 @@
 #include <netinet/in.h>
 
-#ifndef socket 
-#define socket 
+#ifndef SOCKET 
+#define SOCKET 
+
+typedef struct _http_socket {
+  int socket;
+  int port;
+} http_socket; 
 
 // Inputs the socket address struct and port # and 
 // created server socket
-int create_socket(struct sockaddr_in * addr_in, int port);
+extern void create_socket(http_socket *http_s, int port);
 
 #endif
