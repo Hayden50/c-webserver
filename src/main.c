@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 #include "../headers/request-data.h"
 #include "../headers/socket.h"
+#include "../headers/reader.h"
 #define PORT 8123
 
 int main() {
@@ -12,16 +13,27 @@ int main() {
   http_socket http_s;
   create_socket(&http_s, PORT);
 
-  char *res = "HTTP/1.1 200 OK\r\n\r\nHello";
+  char *ok_header = "HTTP/1.1 200 OK\r\n\r\n";
+  char res[4096];
+  strcpy(res, ok_header);
 
   while (1) {
-    char buffer[1024] = "";
+    char buffer[4096] = "";
     int new_socket = accept(http_s.socket, NULL, NULL);
-    read(new_socket, buffer, 1023);
+    read(new_socket, buffer, 4095);
     printf("%s\n", buffer);
     
     req_data request_data;
     get_req_data(&request_data, buffer);
+
+    if (strcmp(request_data.route, "/") == 0) {
+      strcat(res, "Equal");
+    } else {
+      FILE *file = fopen("../html-templates/404.html", "r");
+      char *new_buff = readfile(file);
+      strcat(res, new_buff);
+      strcat(res, "\r\n\r\n");
+    }
 
     write(new_socket, res, strlen(res));
     close(new_socket);
