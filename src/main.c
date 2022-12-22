@@ -6,6 +6,7 @@
 #include "../headers/request-data.h"
 #include "../headers/socket.h"
 #include "../headers/reader.h"
+#include "../headers/hashmap.h"
 #define PORT 8123
 
 int main() {
@@ -14,8 +15,14 @@ int main() {
   create_socket(&http_s, PORT);
 
   char *ok_header = "HTTP/1.1 200 OK\r\n\r\n";
+  char *missing_header = "HTTP/1.1 200 OK\r\n\r\n";
   char res[4096];
-  strcpy(res, ok_header);
+
+  HashMap *map = init_map();
+  put("user", "pass", map);
+  char *temp = get("key1", map);
+  printf("Value: %s", temp);
+  // list_map(map);
 
   while (1) {
     char buffer[4096] = "";
@@ -27,8 +34,10 @@ int main() {
     get_req_data(&request_data, buffer);
 
     if (strcmp(request_data.route, "/") == 0) {
+      strcpy(res, ok_header);
       strcat(res, "Equal");
     } else {
+      strcpy(res, missing_header);
       FILE *file = fopen("../html-templates/404.html", "r");
       char *new_buff = readfile(file);
       strcat(res, new_buff);

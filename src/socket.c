@@ -18,6 +18,9 @@ void create_socket(http_socket *http_s, int port) {
 
   if (listen(sockfd, 5) < 0) {
     printf("Listen Error");
+  } else {
+    printf("Listening on port %d\n\n", port);
   }
+  
   http_s->socket = sockfd;
 } 
