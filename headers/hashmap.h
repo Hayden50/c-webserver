@@ -20,7 +20,7 @@ typedef struct _hash_map {
 // the stack
 extern HashMap *init_map();
 
-// Finds the index for the key value pair
+/** Finds the index for the key value pair */
 extern int hashCode(char *key);
 
 // Adds a key value pair to the map

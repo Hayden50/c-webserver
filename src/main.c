@@ -20,9 +20,10 @@ int main() {
 
   HashMap *map = init_map();
   put("user", "pass", map);
-  char *temp = get("key1", map);
-  printf("Value: %s", temp);
-  // list_map(map);
+  put("key1", "pass1", map);
+  char *temp = get("user", map);
+  // printf("Value: %s", temp);
+  list_map(map);
 
   while (1) {
     char buffer[4096] = "";
