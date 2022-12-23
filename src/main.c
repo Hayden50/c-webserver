@@ -22,7 +22,6 @@ int main() {
     char buffer[4096] = "";
     int new_socket = accept(http_s.socket, NULL, NULL);
     read(new_socket, buffer, 4095);
-    printf("%s\n", buffer);
     
     req_data *request_data = (req_data *)malloc(sizeof(req_data));
     get_req_data(request_data, buffer);
@@ -31,7 +30,7 @@ int main() {
 
     write(new_socket, res, strlen(res));
     close(new_socket);
+    free_request_data(request_data, res);       
   }
-
   return 0;
 }

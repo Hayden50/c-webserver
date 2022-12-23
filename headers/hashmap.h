@@ -39,4 +39,7 @@ extern void list_map(HashMap *map);
 // in the hashmap by the init function.
 extern void create_routes(HashMap *map);
 
+// Frees all malloced data
+extern void free_map(HashMap *map);
+
 #endif

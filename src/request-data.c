@@ -42,6 +42,7 @@ char * handle_route(req_data *req, HashMap *map) {
 }
 
 void free_request_data(req_data *req, char *res) {
+  printf("REQ DATA FREED");
   free(res);
   free((void *)req->request_type);
   free((void *)req->route);

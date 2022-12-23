@@ -84,3 +84,12 @@ void create_routes(HashMap *map) {
   put("/", "index.html", map);
   put("/about", "about.html", map);
 }
+
+void free_map(HashMap *map) {
+  for(int i = 0; i < ARR_SIZE; i++) {
+    free(map->backing_arr[i]->key);
+    free(map->backing_arr[i]->value);
+    free(map->backing_arr[i]);
+  }
+  free(map);
+}
