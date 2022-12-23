@@ -24,7 +24,7 @@ extern HashMap *init_map();
 extern int hashCode(char *key);
 
 // Adds a key value pair to the map
-extern int put(char *key, char *value, HashMap *map);
+extern void put(char *key, char *value, HashMap *map);
 
 // Gets value when giving a key
 extern char * get(char *key, HashMap *map);
@@ -34,5 +34,9 @@ extern void delete(char *key, HashMap *map);
 
 // Prints the map out
 extern void list_map(HashMap *map);
+
+// Creates the routes for the websocket. Will be stored
+// in the hashmap by the init function.
+extern void create_routes(HashMap *map);
 
 #endif

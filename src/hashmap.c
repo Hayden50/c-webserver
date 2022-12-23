@@ -4,7 +4,6 @@
 #import "../headers/hashmap.h"
 
 HashMap *init_map() {
-  setbuf(stdout, NULL);
   HashMap *map = (HashMap *)malloc(sizeof(HashMap));
   
   map->size = 0;
@@ -12,7 +11,7 @@ HashMap *init_map() {
     map->backing_arr[i] = (HashObj *)malloc(sizeof(HashObj));
     map->backing_arr[i]->valid = 0;
   }
-  
+  create_routes(map);
   return map;
 }
 
@@ -23,11 +22,10 @@ int hashCode(char *key) {
   for (int i = 0; i < key_size; i++) {
     res += (key[i] * (i + 1));
   }
-  res = res % 1024;
-  return res;
+  return res % 1024;
 }
 
-int put(char *key, char *value, HashMap *map) {
+void put(char *key, char *value, HashMap *map) {
   int idx = hashCode(key);
   
   while(map->backing_arr[idx]->valid != 0) {
@@ -41,8 +39,6 @@ int put(char *key, char *value, HashMap *map) {
   
   map->backing_arr[idx]->valid = 1;
   map->size = map->size + 1;
-
-  return 1;
 }
 
 char *get(char *key, HashMap *map) {
@@ -53,11 +49,6 @@ char *get(char *key, HashMap *map) {
     idx++;
   }
 
-  if(map->backing_arr[idx]->valid == 0) {
-    printf("couldnt find val");
-    return NULL;
-  }
-  
   return map->backing_arr[idx]->value;
 }
 
@@ -80,12 +71,16 @@ void list_map(HashMap *map) {
   } else {
     for (int i = 0; i < ARR_SIZE; i++) {
       if (map->backing_arr[i]->valid == 1) {
-        printf("Key: %s\nValue: %s\n\n", 
+        printf("Route: %s\nPage: %s\n\n", 
              map->backing_arr[i]->key,
              map->backing_arr[i]->value);
       }
     }    
   }
   printf("-----------------------------\n");
+}
 
+void create_routes(HashMap *map) {
+  put("/", "index.html", map);
+  put("/about", "about.html", map);
 }
