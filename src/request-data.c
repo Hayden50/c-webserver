@@ -20,21 +20,23 @@ void get_req_data(req_data *req, char *req_string) {
 }
 
 char * handle_route(req_data *req, HashMap *map) {
-  char *file = get(req->route, map);
+  char *file = get(req->route, map) == NULL ? "404.html" : get(req->route, map);
   char *res = malloc(4096);
-  
-  if (file == NULL) {
-    char *missing_header = "HTTP/1.1 404 OK\r\n\r\n";
-    strcpy(res, missing_header);
-    FILE *file = fopen("../html-templates/404.html", "r");
-    char *new_buff = readfile(file);
-    strcat(res, new_buff);
-    strcat(res, "\r\n\r\n");
-  } else {
-    char *ok_header = "HTTP/1.1 200 OK\r\n\r\n";
-    strcpy(res, ok_header);
-    strcat(res, "Equal");
-  }
+  char *file_address = malloc(100);
+  char *header;
+  char *start_address = "../html-templates/";
+
+  header = file != NULL ? "HTTP/1.1 200 OK\r\n\r\n" : "HTTP/1.1 404 NOT FOUND\r\n\r\n";
+  strcpy(res, header);
+  strcpy(file_address, start_address);
+  strcat(file_address, file);
+
+  FILE *new_file = fopen(file_address, "r");
+  char *new_buff = readfile(new_file);
+    
+  strcat(res, new_buff);
+  free(file_address);
+  strcat(res, "\r\n\r\n");
   
   return res;
 }
