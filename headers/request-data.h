@@ -1,7 +1,7 @@
 #ifndef REQUEST_DATA
 #define REQUEST_DATA
 
-#include "../headers/hashmap.h"
+#include "hashmap.h"
 
 typedef struct _request_data {
   char* request_type;
@@ -13,7 +13,5 @@ extern void get_req_data(req_data *req, char *req_string);
 
 // Free all of the data malloced in get req data
 extern void free_request_data(req_data *req, char *res);
-
-extern char * handle_route(req_data *req, HashMap *map);
 
 #endif

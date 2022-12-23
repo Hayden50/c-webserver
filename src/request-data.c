@@ -19,30 +19,7 @@ void get_req_data(req_data *req, char *req_string) {
   }
 }
 
-char * handle_route(req_data *req, HashMap *map) {
-  char *file = get(req->route, map) == NULL ? "404.html" : get(req->route, map);
-  char *res = malloc(4096);
-  char *file_address = malloc(100);
-  char *header;
-  char *start_address = "../html-templates/";
-
-  header = file != NULL ? "HTTP/1.1 200 OK\r\n\r\n" : "HTTP/1.1 404 NOT FOUND\r\n\r\n";
-  strcpy(res, header);
-  strcpy(file_address, start_address);
-  strcat(file_address, file);
-
-  FILE *new_file = fopen(file_address, "r");
-  char *new_buff = readfile(new_file);
-    
-  strcat(res, new_buff);
-  free(file_address);
-  strcat(res, "\r\n\r\n");
-  
-  return res;
-}
-
 void free_request_data(req_data *req, char *res) {
-  printf("REQ DATA FREED");
   free(res);
   free((void *)req->request_type);
   free((void *)req->route);

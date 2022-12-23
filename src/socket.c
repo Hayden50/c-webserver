@@ -13,11 +13,11 @@ void create_socket(http_socket *http_s, int port) {
   addr_in.sin_port = htons(port);
 
   if (bind(sockfd, (struct sockaddr *) &addr_in, sizeof(addr_in)) < 0) {
-    printf("Bind Error");
+    printf("Bind Error\n");
   }
 
   if (listen(sockfd, 5) < 0) {
-    printf("Listen Error");
+    printf("Listen Error\n");
   } else {
     printf("Listening on port %d\n\n", port);
   }
